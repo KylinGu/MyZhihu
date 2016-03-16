@@ -1,7 +1,5 @@
 package com.kylin.myzhihu.presenters;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -9,9 +7,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.kylin.myzhihu.entity.DetailStoryBean;
-import com.kylin.myzhihu.entity.LatestStoriesBean;
+import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
 
@@ -22,26 +19,21 @@ import java.util.List;
 /**
  * Created by kylin_gu on 2016/3/13.
  */
-public class DetailStoryActivityPresenter {
-
+public class DetailStoryActivityPresenter extends Presetner<DetailStoryActivityPresenter.IDetailActivityUi>{
 
     private static final String TAG = "MainActivityPresenter";
 
-    private IDetailActivityUi mUi;
-
-
-    private IDetailActivityUi getUi(){
-        return mUi;
-    }
-
+    @Override
     public void onUiReady(IDetailActivityUi ui){
-        mUi = ui;
+        super.onUiUnready(ui);
         //register listener
 
         //init loading.
     }
 
-    public void onUiUnready(){
+    @Override
+    public void onUiUnready(IDetailActivityUi ui){
+        super.onUiUnready(ui);
         //ungister listener
 
         //cancel all the request.
@@ -121,11 +113,10 @@ public class DetailStoryActivityPresenter {
         return builder.toString();
     }
 
-    public interface IDetailActivityUi{
+    public interface IDetailActivityUi extends Ui{
         void updateTitleImage(String url, ImageLoader imageLoader);
         void showStory(String content);
         void showProgressDialog(boolean shown);
         void updateTitle(String title);
-        Context getContext();
     }
 }

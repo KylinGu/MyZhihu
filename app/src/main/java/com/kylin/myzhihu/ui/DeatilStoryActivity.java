@@ -75,6 +75,11 @@ public class DeatilStoryActivity extends AppCompatActivity implements DetailStor
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onUiDestory(this);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

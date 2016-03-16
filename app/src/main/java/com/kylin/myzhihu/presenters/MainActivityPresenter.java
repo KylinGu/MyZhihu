@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.kylin.myzhihu.entity.AbstractStoriesItem;
 import com.kylin.myzhihu.entity.LatestStoriesBean;
 import com.kylin.myzhihu.ui.DeatilStoryActivity;
+import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
 
@@ -24,25 +25,21 @@ import java.util.Map;
 /**
  * Created by kylin_gu on 2016/3/12.
  */
-public class MainActivityPresenter {
+public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMainActivityUi>{
 
     private static final String TAG = "MainActivityPresenter";
 
-    private IMainActivityUi mUi;
-
-    private IMainActivityUi getUi(){
-        return mUi;
-    }
-
     public void onUiReady(IMainActivityUi ui){
-        mUi = ui;
+        super.onUiReady(ui);
         //register listener
 
         //init loading.
         requestLatestStories();
     }
 
-    public void onUiUnready(){
+    @Override
+    public void onUiUnready(IMainActivityUi ui){
+        super.onUiUnready(ui);
         //ungister listener
 
         //cancel all the request.
@@ -51,9 +48,9 @@ public class MainActivityPresenter {
 
     public void startDetailActivity(String storyId){
         Intent intent = new Intent();
-        intent.setClass(mUi.getContext(), DeatilStoryActivity.class);
+        intent.setClass(getUi().getContext(), DeatilStoryActivity.class);
         intent.putExtra(MyConstant.KEY_STORY_ID, storyId);
-        mUi.getContext().startActivity(intent);
+        getUi().getContext().startActivity(intent);
     }
 
     public void requestLatestStories(){
@@ -125,11 +122,10 @@ public class MainActivityPresenter {
 
 
 
-    public interface IMainActivityUi{
+    public interface IMainActivityUi extends Ui{
         void updateTopStories(List<? extends AbstractStoriesItem> topStories);
         void updateStories(List<? extends AbstractStoriesItem> stories);
         void showProgressDialog(boolean shown);
-        Context getContext();
     }
 
 }

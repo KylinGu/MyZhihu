@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--calculate density = sqrt(widht*width+height*height)/inch-->
+    <!--calculate px = dp*density/160 -->
+    <dimen name="app_bar_height">256dp</dimen>
+</resources>
