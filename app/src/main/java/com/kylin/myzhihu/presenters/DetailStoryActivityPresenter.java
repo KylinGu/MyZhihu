@@ -25,7 +25,7 @@ public class DetailStoryActivityPresenter extends Presetner<DetailStoryActivityP
 
     @Override
     public void onUiReady(IDetailActivityUi ui){
-        super.onUiUnready(ui);
+        super.onUiReady(ui);
         //register listener
 
         //init loading.
