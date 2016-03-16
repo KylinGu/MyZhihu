@@ -8,9 +8,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.kylin.myzhihu.entity.DetailStoryBean;
+import com.kylin.myzhihu.entity.LatestStoriesBean;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by kylin_gu on 2016/3/13.
@@ -48,34 +55,71 @@ public class DetailStoryActivityPresenter {
      */
     public void requestViewDetailStory(String storyId){
         getUi().showProgressDialog(true);
-        StringRequest strReq = new StringRequest(Request.Method.GET,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.GET,
                 MyConstant.URL_REQUEST_STORY_BASE + storyId,
-                new Response.Listener<String>() {
+                "",
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         getUi().showProgressDialog(false);
-                        if (response.toString()!=null){
-                            Log.d(TAG, response.toString());
-                            com.alibaba.fastjson.JSONObject jObject = com.alibaba.fastjson.JSON.
-                                    parseObject(response.toString());
-                            getUi().showStory(jObject.get("share_url").toString());
-                            getUi().updateTitleImage(jObject.get("image").toString(),
+                        if (response.toString() != null) {
+                            Log.d(TAG, "requestViewDetailStory: onResponse: "+response.toString());
+                            DetailStoryBean mBean = com.alibaba.fastjson.JSON.parseObject(response.toString(),
+                                    DetailStoryBean.class);
+                            getUi().showStory(buildHtmlStyleStory(mBean.getBody(), mBean.getJs(), mBean.getCss()));
+                            getUi().updateTitleImage(mBean.getImage().toString(),
                                     AppController.getInstance().getImageLoader());
-                            getUi().updateTitle(jObject.get("title").toString());
-                            //jObject.get("body").toString()
+                            getUi().updateTitle(mBean.getTitle().toString());
                         }
                     }
                 },
                 new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        getUi().showProgressDialog(false);
-                        Log.d(TAG, "requestViewDetailStory:"+error.toString());
-                    }
-                });
-        AppController.getInstance().addToRequestQueue(strReq, MyConstant.TAG_REQ_OBJ_DETAILACTIVITY);
+                        @Override
+                        public void onErrorResponse (VolleyError error){
+                            getUi().showProgressDialog(false);
+                            Log.d(TAG, "requestViewDetailStory: Error: " + error.getMessage());
+                        }
+                }
+        );
+        AppController.getInstance().addToRequestQueue(jsonObjReq, MyConstant.TAG_REQ_OBJ_DETAILACTIVITY);
     }
 
+    /**
+     * the method that building a html body is coming from https://github.com/Uphie/ZhiHuDaily
+     * As I did not know any thing about html and network-type app  programing before,
+     * it is indeed a great help.
+     *
+     * @param body
+     * @param jsList
+     * @param cssList
+     * @return
+     */
+    private String buildHtmlStyleStory(String body, List<String> jsList, List<String> cssList ){
+        //build a html content and load it with webview
+        String css = "";
+        for (String css_url : cssList) {
+            css += "<link rel=\"stylesheet\" href=" + css_url + ">\n";
+        }
+        String js = "";
+        for (String js_url : jsList) {
+            js += "<script src=" + js_url + "/>\n";
+        }
+        //no need to give a blank space for title image.
+        String mBody = body.replaceAll("<div class=\"img-place-holder\"></div>", "");
+        Log.d(TAG, "buildHtmlStyleStory: "+mBody);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html>\n")
+                .append("<head>\n")
+                .append(css).append(js)
+                .append("</head>\n")
+                .append("<body>")
+                .append(mBody)
+                .append("</body>\n")
+                .append("</html>");
+
+        return builder.toString();
+    }
 
     public interface IDetailActivityUi{
         void updateTitleImage(String url, ImageLoader imageLoader);

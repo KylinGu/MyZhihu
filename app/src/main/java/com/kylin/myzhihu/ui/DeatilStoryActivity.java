@@ -1,5 +1,6 @@
 package com.kylin.myzhihu.ui;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,7 @@ import java.net.URL;
 
 public class DeatilStoryActivity extends AppCompatActivity implements DetailStoryActivityPresenter.IDetailActivityUi{
 
+    private final static String TAG = "DetaisStoryActivity";
     private DetailStoryActivityPresenter mPresenter;
     private WebView wvStory;
     private ProgressDialog pDialog = null;
@@ -102,7 +105,7 @@ public class DeatilStoryActivity extends AppCompatActivity implements DetailStor
     @Override
     public void showStory(String content) {
         if (content == null ) return;
-        wvStory.loadUrl(content);
+        wvStory.loadData(content, "text/html;charset=UTF-8", "UTF-8");
     }
 
     @Override
@@ -117,8 +120,12 @@ public class DeatilStoryActivity extends AppCompatActivity implements DetailStor
     }
 
     @Override
-    public void updateTitle(String title) {
-        setTitle(title);
+    public void updateTitle(String title){
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        Log.d(TAG, "updateTitle = "+title+", actionBar = "+actionBar);
+        if(actionBar != null)   {
+            actionBar.setTitle(title);
+        }
     }
 
     @Override

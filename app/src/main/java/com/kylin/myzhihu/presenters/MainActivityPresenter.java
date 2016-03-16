@@ -49,37 +49,11 @@ public class MainActivityPresenter {
         AppController.getInstance().cancelPendingRequests(MyConstant.TAG_REQ_OBJ_MAINACTIVITY);
     }
 
-    /**
-     * http://news-at.zhihu.com/api/4/news/$storyId
-     * e.g. 3892357
-     * @param storyId
-     */
-    public void requestViewDetailStory(String storyId){
-        StringRequest strReq = new StringRequest(Request.Method.GET,
-                MyConstant.URL_REQUEST_STORY_BASE + storyId,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response.toString()!=null){
-
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-        AppController.getInstance().addToRequestQueue(strReq, MyConstant.TAG_REQ_OBJ_MAINACTIVITY);
-    }
-
     public void startDetailActivity(String storyId){
         Intent intent = new Intent();
         intent.setClass(mUi.getContext(), DeatilStoryActivity.class);
         intent.putExtra(MyConstant.KEY_STORY_ID, storyId);
         mUi.getContext().startActivity(intent);
-
     }
 
     public void requestLatestStories(){
