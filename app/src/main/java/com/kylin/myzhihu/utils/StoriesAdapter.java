@@ -16,6 +16,9 @@ import com.kylin.myzhihu.entity.StoriesItem;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by kylin_gu on 2016/3/13.
  */
@@ -28,14 +31,19 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public CardView mCardView;
-        public TextView mTvTitle;
-        public ImageView mIvPic;
+        @Bind(R.id.item_cardview)public CardView mCardView;
+        @Bind(R.id.tv_story_title)public TextView mTvTitle;
+        @Bind(R.id.iv_story_pic)public ImageView mIvPic;
+
         public ViewHolder(View v) {
             super(v);
-            mCardView = (CardView) v.findViewById(R.id.item_cardview);
-            mTvTitle = (TextView) v.findViewById(R.id.tv_story_title);
-            mIvPic = (ImageView) v.findViewById(R.id.iv_story_pic);
+            ButterKnife.bind(this, v);
+            //The work it do dose like below
+            //public void bind(ExampleActivity activity) {
+            //    activity.subtitle = (android.widget.TextView) activity.findViewById(2130968578);
+            //    activity.footer = (android.widget.TextView) activity.findViewById(2130968579);
+            //    activity.title = (android.widget.TextView) activity.findViewById(2130968577);
+            //}
         }
     }
 

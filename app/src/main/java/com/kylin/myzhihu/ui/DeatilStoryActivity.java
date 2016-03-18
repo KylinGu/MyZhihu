@@ -25,24 +25,28 @@ import com.kylin.myzhihu.utils.MyConstant;
 
 import java.net.URL;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class DeatilStoryActivity extends AppCompatActivity implements DetailStoryActivityPresenter.IDetailActivityUi{
 
     private final static String TAG = "DetaisStoryActivity";
     private DetailStoryActivityPresenter mPresenter;
-    private WebView wvStory;
     private ProgressDialog pDialog = null;
-    private NetworkImageView nivTitleImage = null;
-    private Toolbar toolbar;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.niv_title_image) NetworkImageView nivTitleImage;
+    @Bind(R.id.wv_story) WebView wvStory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deatil_story);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +55,6 @@ public class DeatilStoryActivity extends AppCompatActivity implements DetailStor
             }
         });
 
-        wvStory = (WebView) findViewById(R.id.wv_story);
         wvStory.setNestedScrollingEnabled(true);
         wvStory.getSettings().setJavaScriptEnabled(true);
         wvStory.setWebViewClient(new WebViewClient() {
@@ -61,8 +64,6 @@ public class DeatilStoryActivity extends AppCompatActivity implements DetailStor
                 return true;
             }
         });
-
-        nivTitleImage = (NetworkImageView) findViewById(R.id.niv_title_image);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(getResources().getString(R.string.progress_loading));

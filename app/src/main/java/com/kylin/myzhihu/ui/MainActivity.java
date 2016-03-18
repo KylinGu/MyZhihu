@@ -3,11 +3,13 @@ package com.kylin.myzhihu.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -26,24 +28,40 @@ import com.kylin.myzhihu.utils.StoriesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.IMainActivityUi,
-        View.OnClickListener, StoriesAdapter.CustomItemClickListener{
+        View.OnClickListener, StoriesAdapter.CustomItemClickListener, SwipeRefreshLayout.OnRefreshListener{
+
+    @Bind(R.id.contents_recycler_view)  RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.sf_stories) SwipeRefreshLayout mRefresh;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
     private MainActivityPresenter mPresenter;
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ProgressDialog pDialog = null;
+    private ProgressDialog pDialog = null;
+
+    private boolean isRefresh = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        mRefresh = (SwipeRefreshLayout) findViewById(R.id.sf_stories);
+        mRefresh.setOnRefreshListener(this);
+        mRefresh.setColorSchemeColors(android.R.color.white,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         fab.setOnClickListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,7 +73,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.contents_recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -203,4 +220,18 @@ public class MainActivity extends AppCompatActivity
             mPresenter.startDetailActivity(String.valueOf(v.getTag()));
         }
     }
+
+    @Override
+    public void onRefresh() {
+        if (!isRefresh) {
+            isRefresh = true;
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mRefresh.setRefreshing(false);
+                    isRefresh = false;
+                }
+            }, 3000);
+        }
+    }
+
 }
