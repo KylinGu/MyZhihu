@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/list_item_banner_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/list_item_banner_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="1"
+        android:singleLine="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="top|right"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+</FrameLayout>

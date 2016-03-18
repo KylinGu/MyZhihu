@@ -28,7 +28,7 @@ import java.net.URL;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DeatilStoryActivity extends AppCompatActivity implements DetailStoryActivityPresenter.IDetailActivityUi{
+public class DeatailStoryActivity extends AppCompatActivity implements DetailStoryActivityPresenter.IDetailActivityUi{
 
     private final static String TAG = "DetaisStoryActivity";
     private DetailStoryActivityPresenter mPresenter;

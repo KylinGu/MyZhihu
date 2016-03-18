@@ -2,5 +2,5 @@
 <resources>
     <!--calculate density = sqrt(widht*width+height*height)/inch-->
     <!--calculate px = dp*density/160 -->
-    <dimen name="app_bar_height">256dp</dimen>
+    <dimen name="app_bar_height">220dp</dimen>
 </resources>

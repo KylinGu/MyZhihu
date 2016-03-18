@@ -8,6 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,9 +24,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.kylin.myzhihu.R;
+import com.kylin.myzhihu.adapters.MyViewPagerAdapter;
 import com.kylin.myzhihu.entity.AbstractStoriesItem;
+import com.kylin.myzhihu.entity.StoriesItem;
+import com.kylin.myzhihu.entity.TopStoriesItem;
 import com.kylin.myzhihu.presenters.MainActivityPresenter;
-import com.kylin.myzhihu.utils.StoriesAdapter;
+import com.kylin.myzhihu.adapters.StoriesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +41,23 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.IMainActivityUi,
         View.OnClickListener, StoriesAdapter.CustomItemClickListener, SwipeRefreshLayout.OnRefreshListener{
 
-    @Bind(R.id.contents_recycler_view)  RecyclerView mRecyclerView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.sf_stories) SwipeRefreshLayout mRefresh;
-    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.contents_recycler_view)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.sf_stories)
+    SwipeRefreshLayout mRefresh;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.vp_top_stories)
+    ViewPager mViewPager;
+
 
     private MainActivityPresenter mPresenter;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog pDialog = null;
-
+    private MyViewPagerAdapter mViewPagerAdapter;
     private boolean isRefresh = false;
 
     @Override
@@ -88,6 +101,9 @@ public class MainActivity extends AppCompatActivity
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
+
+        mViewPagerAdapter = new MyViewPagerAdapter(this);
+        mViewPager.setAdapter(mViewPagerAdapter);
 
         mPresenter = new MainActivityPresenter();
         mPresenter.onUiReady(this);
@@ -161,12 +177,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateTopStories(List<? extends AbstractStoriesItem> topStories) {
-
+    public void updateTopStories(List<TopStoriesItem> topStories) {
+        mViewPagerAdapter.updateAll(topStories);
+        mViewPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void updateStories(List<? extends AbstractStoriesItem> stories) {
+    public void updateStories(List<StoriesItem> stories) {
         if (mAdapter instanceof StoriesAdapter){
             List mDataSet = ((StoriesAdapter) mAdapter).getDataSet();
             mDataSet.addAll(0,stories);

@@ -1,11 +1,10 @@
-package com.kylin.myzhihu.utils;
+package com.kylin.myzhihu.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.kylin.myzhihu.R;
 import com.kylin.myzhihu.entity.AbstractStoriesItem;
 import com.kylin.myzhihu.entity.StoriesItem;
+import com.kylin.myzhihu.utils.AppController;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.ViewHold
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            //The work it do dose like below
+            //The work of ButterKnife what it has done like below
             //public void bind(ExampleActivity activity) {
             //    activity.subtitle = (android.widget.TextView) activity.findViewById(2130968578);
             //    activity.footer = (android.widget.TextView) activity.findViewById(2130968579);

@@ -1,6 +1,5 @@
 package com.kylin.myzhihu.presenters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -9,14 +8,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.kylin.myzhihu.entity.AbstractStoriesItem;
 import com.kylin.myzhihu.entity.LatestStoriesBean;
-import com.kylin.myzhihu.ui.DeatilStoryActivity;
+import com.kylin.myzhihu.entity.StoriesItem;
+import com.kylin.myzhihu.entity.TopStoriesItem;
+import com.kylin.myzhihu.ui.DeatailStoryActivity;
 import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -48,7 +50,7 @@ public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMain
 
     public void startDetailActivity(String storyId){
         Intent intent = new Intent();
-        intent.setClass(getUi().getContext(), DeatilStoryActivity.class);
+        intent.setClass(getUi().getContext(), DeatailStoryActivity.class);
         intent.putExtra(MyConstant.KEY_STORY_ID, storyId);
         getUi().getContext().startActivity(intent);
     }
@@ -117,14 +119,41 @@ public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMain
         if (jObject == null) return null;
         LatestStoriesBean mBean = com.alibaba.fastjson.JSON.parseObject(jObject.toString(),
                 LatestStoriesBean.class);
+        //it can not get topstories...a bug...
+        if (mBean!=null && mBean.getDate()==0){
+            try {
+                mBean.date = jObject.getLong("date");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (mBean !=null && mBean.getStories() == null){
+            try {
+                JSONArray jArray = jObject.getJSONArray("stories");
+                mBean.stories = com.alibaba.fastjson.JSON.parseArray(jArray.toString(), StoriesItem.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (mBean !=null && mBean.getTopStories() == null ){
+            try {
+                JSONArray jTopArray = jObject.getJSONArray("top_stories");
+                mBean.topStories = com.alibaba.fastjson.JSON.parseArray(jTopArray.toString(),
+                        TopStoriesItem.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d(TAG, "requestLatestStories:"+mBean.getDate()+", "+mBean.getStories()+", "+mBean.getTopStories());
         return mBean;
     }
 
 
 
     public interface IMainActivityUi extends Ui{
-        void updateTopStories(List<? extends AbstractStoriesItem> topStories);
-        void updateStories(List<? extends AbstractStoriesItem> stories);
+        void updateTopStories(List<TopStoriesItem> topStories);
+        void updateStories(List<StoriesItem> stories);
         void showProgressDialog(boolean shown);
     }
 

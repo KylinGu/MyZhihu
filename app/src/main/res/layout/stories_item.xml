@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/iv_story_pic"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="@dimen/story_item_pic_size"
+            android:layout_height="@dimen/story_item_pic_size"
             android:adjustViewBounds="false"
             android:background="@color/colorPrimaryDark" />
 
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/text_margin"
             android:text="@string/app_name"
             style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle" />
     </LinearLayout>
