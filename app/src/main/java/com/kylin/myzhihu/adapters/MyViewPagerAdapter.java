@@ -1,10 +1,9 @@
 package com.kylin.myzhihu.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -22,18 +21,19 @@ import java.util.List;
 
 public class MyViewPagerAdapter extends android.support.v4.view.PagerAdapter {
 
-    private List<TopStoriesItem> list = new ArrayList<>();
-    private List<View> banners = new ArrayList<>();
-    private ArrayList<Long> idList = new ArrayList<>();
+    private List<TopStoriesItem> mDataSet = new ArrayList<>();
+    private List<View> viewList = new ArrayList<>();
     private Context mContext;
+    private View.OnClickListener listener;
 
-    public MyViewPagerAdapter(Context context){
+    public MyViewPagerAdapter(Context context, View.OnClickListener listener){
         mContext = context;
+        this.listener = listener;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return mDataSet.size();
     }
 
     @Override
@@ -43,48 +43,33 @@ public class MyViewPagerAdapter extends android.support.v4.view.PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        TopStoriesItem topStory = list.get(position);
+        TopStoriesItem topStory = mDataSet.get(position);
 
         View view = View.inflate(mContext, R.layout.view_page_item, null);
-
         container.addView(view);
-        banners.add(view);
+        viewList.add(view);
 
-        NetworkImageView draweeView = (NetworkImageView) view.findViewById(R.id.list_item_banner_img);
-        draweeView.setImageUrl(topStory.getImage(), AppController.getInstance().getImageLoader());
-        TextView tv_title = (TextView) view.findViewById(R.id.list_item_banner_title);
+        NetworkImageView nivTopStoriesImg = (NetworkImageView) view.findViewById(R.id.niv_top_storie_img);
+        nivTopStoriesImg.setImageUrl(topStory.getImage(), AppController.getInstance().getImageLoader());
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_top_stories_title);
         tv_title.setText(topStory.title);
-//        view.setOnClickListener(new Listener(topStory));
+        FrameLayout layout = (FrameLayout) view.findViewById(R.id.container_view_pager_item);
+        layout.setTag(topStory.getId());
+        layout.setOnClickListener(listener);
 
         return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(banners.get(position));
+        container.removeView(viewList.get(position));
     }
 
     public void updateAll(List<TopStoriesItem> data) {
         data = data == null ? new ArrayList<TopStoriesItem>() : data;
-        list.clear();
-        list.addAll(data);
-        for (TopStoriesItem topStory : list) {
-            idList.add(topStory.getId());
-        }
+        mDataSet.clear();
+        mDataSet.addAll(data);
         notifyDataSetChanged();
     }
 
-//    private class Listener extends AbsBaseOnItemClickListener<TopStoriesItem> {
-//        public Listener(TopStoriesItem data) {
-//            super(data);
-//        }
-//
-//        @Override
-//        public void onClick(View view, TopStoriesItem data) {
-//            Intent intent = new Intent(mContext, DetailStoryActivity.class);
-//            intent.putExtra("ids", idList);
-//            intent.putExtra("index", idList.indexOf(data.id));
-//            startActivity(intent);
-//        }
-//    }
 }

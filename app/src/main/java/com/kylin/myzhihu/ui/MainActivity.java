@@ -19,6 +19,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.vp_top_stories)
     ViewPager mViewPager;
 
-
+    public static final String TAG = "MainActivity";
     private MainActivityPresenter mPresenter;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         pDialog = new ProgressDialog(this);
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
 
-        mViewPagerAdapter = new MyViewPagerAdapter(this);
+        mViewPagerAdapter = new MyViewPagerAdapter(this, this);
         mViewPager.setAdapter(mViewPagerAdapter);
 
         mPresenter = new MainActivityPresenter();
@@ -223,6 +224,10 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
                 snackbar.show();
+                break;
+            case R.id.container_view_pager_item:
+                Log.d(TAG, "onClick container_view_pager_item"+v.getTag());
+                mPresenter.startDetailActivity(String.valueOf(v.getTag()));
                 break;
             default:
 
