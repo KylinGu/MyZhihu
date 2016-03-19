@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.sf_stories)
-    SwipeRefreshLayout mRefresh;
+//    @Bind(R.id.sf_stories)
+//    SwipeRefreshLayout mRefresh;
     @Bind(R.id.fab)
     FloatingActionButton fab;
     @Bind(R.id.vp_top_stories)
@@ -66,22 +66,20 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        mRefresh = (SwipeRefreshLayout) findViewById(R.id.sf_stories);
-        mRefresh.setOnRefreshListener(this);
-        mRefresh.setColorSchemeColors(android.R.color.white,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+//        mRefresh = (SwipeRefreshLayout) findViewById(R.id.sf_stories);
+//        mRefresh.setOnRefreshListener(this);
+//        mRefresh.setColorSchemeColors(android.R.color.holo_purple);
+//        mRefresh.setNestedScrollingEnabled(false);
 
         fab.setOnClickListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -245,15 +243,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-        if (!isRefresh) {
-            isRefresh = true;
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    mRefresh.setRefreshing(false);
-                    isRefresh = false;
-                }
-            }, 3000);
-        }
+//        Before I know how to refresh it using pull up, disable it temp.
+//        if (!isRefresh) {
+//            isRefresh = true;
+//            new Handler().postDelayed(new Runnable() {
+//                public void run() {
+//                    mRefresh.setRefreshing(false);
+//                    isRefresh = false;
+//                }
+//            }, 3000);
+//        }
     }
 
 }

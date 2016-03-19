@@ -8,11 +8,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.kylin.myzhihu.entity.AbstractStoriesItem;
 import com.kylin.myzhihu.entity.LatestStoriesBean;
 import com.kylin.myzhihu.entity.StoriesItem;
 import com.kylin.myzhihu.entity.TopStoriesItem;
-import com.kylin.myzhihu.ui.DeatailStoryActivity;
+import com.kylin.myzhihu.ui.DetailStoryActivity;
 import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
@@ -50,7 +49,7 @@ public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMain
 
     public void startDetailActivity(String storyId){
         Intent intent = new Intent();
-        intent.setClass(getUi().getContext(), DeatailStoryActivity.class);
+        intent.setClass(getUi().getContext(), DetailStoryActivity.class);
         intent.putExtra(MyConstant.KEY_STORY_ID, storyId);
         getUi().getContext().startActivity(intent);
     }

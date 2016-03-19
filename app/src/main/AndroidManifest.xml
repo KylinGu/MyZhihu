@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.DeatailStoryActivity"
+            android:name=".ui.DetailStoryActivity"
             android:label="@string/title_activity_deatil_story"
             android:theme="@style/AppTheme.NoActionBar"
             android:hardwareAccelerated="true"></activity>

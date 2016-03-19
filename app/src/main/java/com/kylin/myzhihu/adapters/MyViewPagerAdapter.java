@@ -71,5 +71,4 @@ public class MyViewPagerAdapter extends android.support.v4.view.PagerAdapter {
         mDataSet.addAll(data);
         notifyDataSetChanged();
     }
-
 }

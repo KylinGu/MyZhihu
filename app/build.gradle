@@ -29,4 +29,5 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.alibaba:fastjson:1.1.46.android'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.roughike:bottom-bar:1.0.8'
 }

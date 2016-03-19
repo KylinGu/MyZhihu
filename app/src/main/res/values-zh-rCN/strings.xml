@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="progress_loading">正在加载...</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_star">收藏</string>
+    <string name="menu_comment">评论</string>
+    <string name="menu_like">点赞</string>
+    <string name="title_story_detail">故事详情</string>
+    <string name="action_settings">设置</string>
 </resources>

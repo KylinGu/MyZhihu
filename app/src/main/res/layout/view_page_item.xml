@@ -12,14 +12,12 @@
 
     <TextView
         android:id="@+id/tv_top_stories_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="1"
-        android:singleLine="false"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:layout_gravity="top|right"
+        android:layout_gravity="left|bottom"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 </FrameLayout>

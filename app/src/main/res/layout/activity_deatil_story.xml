@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.DeatailStoryActivity">
+    tools:context=".ui.DetailStoryActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -31,6 +31,17 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
+<!--            <TextView
+                android:id="@+id/tv_detail_stories_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="left|bottom"
+                android:textColor="@android:color/white"
+                android:text="@string/appbar_scrolling_view_behavior"
+                android:textSize="18sp" />-->
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
