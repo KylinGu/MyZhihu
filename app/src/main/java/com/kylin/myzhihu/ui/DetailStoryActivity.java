@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,14 +20,15 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.kylin.myzhihu.R;
 import com.kylin.myzhihu.presenters.DetailStoryActivityPresenter;
 import com.kylin.myzhihu.utils.MyConstant;
+import com.kylin.myzhihu.view_interface.IDetailActivityUi;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailStoryActivity extends AppCompatActivity implements DetailStoryActivityPresenter.
-        IDetailActivityUi, OnMenuTabSelectedListener{
+public class DetailStoryActivity extends AppCompatActivity implements IDetailActivityUi,
+        OnMenuTabSelectedListener{
 
     private final static String TAG = "DetaisStoryActivity";
     private DetailStoryActivityPresenter mPresenter;
@@ -52,14 +52,21 @@ public class DetailStoryActivity extends AppCompatActivity implements DetailStor
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mBottomBar = BottomBar.attach(this,savedInstanceState);
+        //to remove large space on top and navibar.
+        mBottomBar.noTopOffset();
+        mBottomBar.noNavBarGoodness();
+
         mBottomBar.setItemsFromMenu(R.menu.menu_bottombar, this);
+        //set color transition
         mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
         mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.material_green));
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.material_purple));
 
+        mBottomBar.setEnableAlwasyShowTitle(true);
+        mBottomBar.setEnableUnselectAll(true);
         try{
-            //mBottomBar.selectTabAtPosition(-1, true);
+            mBottomBar.selectTabAtPosition(-1, true);
         }catch (NullPointerException e){
             //just want to unselect the tab.
         }

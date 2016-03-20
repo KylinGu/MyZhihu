@@ -12,21 +12,20 @@ import com.kylin.myzhihu.entity.LatestStoriesBean;
 import com.kylin.myzhihu.entity.StoriesItem;
 import com.kylin.myzhihu.entity.TopStoriesItem;
 import com.kylin.myzhihu.ui.DetailStoryActivity;
-import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
+import com.kylin.myzhihu.view_interface.IMainActivityUi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by kylin_gu on 2016/3/12.
  */
-public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMainActivityUi>{
+public class MainActivityPresenter extends Presetner<IMainActivityUi>{
 
     private static final String TAG = "MainActivityPresenter";
 
@@ -146,14 +145,6 @@ public class MainActivityPresenter extends Presetner<MainActivityPresenter.IMain
         }
         Log.d(TAG, "requestLatestStories:"+mBean.getDate()+", "+mBean.getStories()+", "+mBean.getTopStories());
         return mBean;
-    }
-
-
-
-    public interface IMainActivityUi extends Ui{
-        void updateTopStories(List<TopStoriesItem> topStories);
-        void updateStories(List<StoriesItem> stories);
-        void showProgressDialog(boolean shown);
     }
 
 }

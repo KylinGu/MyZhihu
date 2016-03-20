@@ -8,8 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,11 +24,11 @@ import android.view.View;
 
 import com.kylin.myzhihu.R;
 import com.kylin.myzhihu.adapters.MyViewPagerAdapter;
-import com.kylin.myzhihu.entity.AbstractStoriesItem;
+import com.kylin.myzhihu.adapters.StoriesAdapter;
 import com.kylin.myzhihu.entity.StoriesItem;
 import com.kylin.myzhihu.entity.TopStoriesItem;
 import com.kylin.myzhihu.presenters.MainActivityPresenter;
-import com.kylin.myzhihu.adapters.StoriesAdapter;
+import com.kylin.myzhihu.view_interface.IMainActivityUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +37,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.IMainActivityUi,
+        implements NavigationView.OnNavigationItemSelectedListener, IMainActivityUi,
         View.OnClickListener, StoriesAdapter.CustomItemClickListener, SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.contents_recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-//    @Bind(R.id.sf_stories)
-//    SwipeRefreshLayout mRefresh;
+    @Bind(R.id.sf_stories)
+    SwipeRefreshLayout mRefresh;
     @Bind(R.id.fab)
     FloatingActionButton fab;
     @Bind(R.id.vp_top_stories)
@@ -69,10 +67,11 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-//        mRefresh = (SwipeRefreshLayout) findViewById(R.id.sf_stories);
-//        mRefresh.setOnRefreshListener(this);
-//        mRefresh.setColorSchemeColors(android.R.color.holo_purple);
-//        mRefresh.setNestedScrollingEnabled(false);
+        mRefresh = (SwipeRefreshLayout) findViewById(R.id.sf_stories);
+        mRefresh.setOnRefreshListener(this);
+        mRefresh.setColorSchemeColors(android.R.color.holo_purple);
+        mRefresh.setNestedScrollingEnabled(false);
+        mRefresh.setEnabled(false);
 
         fab.setOnClickListener(this);
 
@@ -244,15 +243,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRefresh() {
 //        Before I know how to refresh it using pull up, disable it temp.
-//        if (!isRefresh) {
-//            isRefresh = true;
-//            new Handler().postDelayed(new Runnable() {
-//                public void run() {
-//                    mRefresh.setRefreshing(false);
-//                    isRefresh = false;
-//                }
-//            }, 3000);
-//        }
+        if (!isRefresh) {
+            isRefresh = true;
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    mRefresh.setRefreshing(false);
+                    isRefresh = false;
+                }
+            }, 3000);
+        }
     }
 
 }

@@ -20,18 +20,16 @@
         android:visibility="gone"
         />
 
-<!--    <android.support.v4.widget.SwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sf_stories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_hint">-->
-
+        android:layout_below="@+id/tv_hint">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contents_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_hint"
-            android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
-<!--    </android.support.v4.widget.SwipeRefreshLayout>-->
+            android:scrollbars="vertical"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

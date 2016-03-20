@@ -11,6 +11,7 @@ import com.kylin.myzhihu.entity.DetailStoryBean;
 import com.kylin.myzhihu.ui.Ui;
 import com.kylin.myzhihu.utils.AppController;
 import com.kylin.myzhihu.utils.MyConstant;
+import com.kylin.myzhihu.view_interface.IDetailActivityUi;
 
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by kylin_gu on 2016/3/13.
  */
-public class DetailStoryActivityPresenter extends Presetner<DetailStoryActivityPresenter.IDetailActivityUi>{
+public class DetailStoryActivityPresenter extends Presetner<IDetailActivityUi>{
 
     private static final String TAG = "MainActivityPresenter";
 
@@ -111,12 +112,5 @@ public class DetailStoryActivityPresenter extends Presetner<DetailStoryActivityP
                 .append("</html>");
 
         return builder.toString();
-    }
-
-    public interface IDetailActivityUi extends Ui{
-        void updateTitleImage(String url, ImageLoader imageLoader);
-        void showStory(String content);
-        void showProgressDialog(boolean shown);
-        void updateTitle(String title);
     }
 }
